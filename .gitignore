@@ -1,0 +1,9 @@
+# ignore videos, anywhere in the tree
+*.mp4
+# ignore pdfs, anywhere in the tree
+*.pdf
+*.class
+*.png
+*.txt
+*.zip
+*.html
