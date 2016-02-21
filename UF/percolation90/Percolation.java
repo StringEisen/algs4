@@ -2,8 +2,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdRandom;
 
 /**
- * model a percolation system by constructing 
- * a N-by-N grid
+ * model a percolation system by constructing a N-by-N grid
+ * , no added private method
+ * to prevent wash back
+ * score 90%
  * created 14th, Feb, 2016
  * @author Yixin Liu
  * @version 1.0
