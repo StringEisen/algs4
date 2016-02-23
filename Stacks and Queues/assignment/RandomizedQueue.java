@@ -4,6 +4,9 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
+/**
+ * this version cannot avoid dequeuing null item 
+ */
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] q;
     // number of place not null in the array (number of items)
@@ -11,7 +14,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int first, last;
     
     public RandomizedQueue() {
-        q = (Item[]) New Object[2];
+        q = (Item[]) new Object[2];
         N = 0;
         first = 0;
         last = 0;
@@ -26,7 +29,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     
     private void resize(int capacity) {
-        Item[] temp = new (Item[]) Object[capacity];
+        Item[] temp = (Item[]) new Object[capacity];
         for (int i = 0; i < N; i++) {
             temp[i] = q[(first + i) % q.length];
         }
@@ -59,28 +62,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     public Item sample() {
         if (isEmpty()) throw new NoSuchElementException("nothing to sample");
-        int label = StdRandom.unifrom(first, last + 1);
+        int label = StdRandom.uniform(first, last + 1);
         Item item = q[label];
         return item;
     }
     
     public Iterator<Item> iterator() {
+        q = shuffle();
         return new RandomIterator();
     }
     
-    private class RandomIterator implements Iterator<Item> {
-        // copy not null elements into a new array
-        private Item[N] a;
-        for (int i = 0; i < N; i++) {
-            a[i] = p[(first + i) % q.length];
+    // copy not null elements into a new array
+    private Item[] shuffle() {
+        Item[] a;
+        a = (Item[]) new Object[N];
+        for (int j = 0; j < N; j++) {
+            a[j] = q[(first + j) % q.length];
         }
-        // create a rearranged array shuffle 
-        private Item[] shuffle = StdRandom.shuffle(a);
+        // rearrange array
+        StdRandom.shuffle(a);
+        return a;
+    }
+    
+    private class RandomIterator implements Iterator<Item> {
         private int i = 0;
         public boolean hasNext() { return i < N; }
         public Item next() {
-            if (isEmpty()) throw new NoSuchElementException();
-            Item item = shuffle[(first + i) % shuffle.length];
+            if (!hasNext()) throw new NoSuchElementException();
+            Item item = q[(first + i) % q.length];
             i++;
             return item;
         }
@@ -88,6 +97,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     
     public static void main(String[] args) {
+        RandomizedQueue<String> q = new RandomizedQueue<String>();
+        while (!StdIn.isEmpty()) {
+            String s = StdIn.readString();
+            if (!s.equals("-")) q.enqueue(s);
+            else if (!q.isEmpty()) StdOut.print(q.dequeue() + " ");
+        }
+        StdOut.print(q.size() + "items remains");
     }
 }
     
