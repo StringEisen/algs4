@@ -36,6 +36,14 @@ import edu.princeton.cs.algs4.StdOut;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
+/**
+ * unlike array of stack, array of queue need to label both the first
+ * item and the last item for dequeue(first-out) and enqueue(first-in, add sfter the last)
+ * so, to avoid some waste of space in an array, everytime the only left item is at the 
+ * end of the array (index == N), we move it to the start of the array (index == 0)
+ * this operation is called wrap-around
+ * comments by Yixin Liu
+ */
 public class ResizingArrayQueue<Item> implements Iterable<Item> {
     private Item[] q;       // queue elements
     private int N;          // number of elements on queue
