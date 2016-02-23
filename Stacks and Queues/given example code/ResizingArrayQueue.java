@@ -13,6 +13,8 @@
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 
 /**
  *  The <tt>ResizingArrayQueue</tt> class represents a first-in-first-out (FIFO)
@@ -72,6 +74,8 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
         assert max >= N;
         Item[] temp = (Item[]) new Object[max];
         for (int i = 0; i < N; i++) {
+            // when first + i < q.length, (first + i) % q.length = first + i
+            // when first + i = q.length, (first + i) % q.length = 0
             temp[i] = q[(first + i) % q.length];
         }
         q = temp;

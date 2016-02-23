@@ -42,11 +42,8 @@ public class ResizingArrayStack<Item> {
         return item;
     }
     
-    /*
-     * resize the array to its new capacity
-     * @para capacity new capacity
-     */
-    public void resize(int capacity) {
+    // resize the array to a new capacity
+    private void resize(int capacity) {
         Item[] copy = (Item[]) new Object[capacity];
         for (int i = 0; i < N; i++)
             copy[i] = s[i];
