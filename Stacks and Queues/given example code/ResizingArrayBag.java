@@ -9,6 +9,8 @@
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 
 /**
  *  The <tt>ResizingArrayBag</tt> class represents a bag (or multiset) of 

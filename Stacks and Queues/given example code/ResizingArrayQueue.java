@@ -99,6 +99,9 @@ public class ResizingArrayQueue<Item> implements Iterable<Item> {
         // double size of array if necessary and recopy to front of array
         if (N == q.length) resize(2*q.length);   // double size of array if necessary
         q[last++] = item;                        // add item
+        // after enqueue, if only the last position in the array is full,
+        // take it to the first position to enable the empty space 
+        // in the array is waiting for enqueue into the next one
         if (last == q.length) last = 0;          // wrap-around
         N++;
     }

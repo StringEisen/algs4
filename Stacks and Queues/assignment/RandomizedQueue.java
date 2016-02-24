@@ -5,18 +5,17 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 /**
- * this version cannot avoid dequeuing null item 
+ * this version avoid dequeuing null item by getLabel method
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] q;
     // number of place not null in the array (number of items)
     private int N;
-    private int first, last;
+    private int last;
     
     public RandomizedQueue() {
         q = (Item[]) new Object[2];
         N = 0;
-        first = 0;
         last = 0;
     }
     
@@ -31,38 +30,40 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private void resize(int capacity) {
         Item[] temp = (Item[]) new Object[capacity];
         for (int i = 0; i < N; i++) {
-            temp[i] = q[(first + i) % q.length];
+            temp[i] = q[i];
         }
         q = temp;
-        first = 0;
         last = N;
     }
     
     public void enqueue(Item item) {
         if (item == null) throw new NullPointerException("cannot add null item");
         // double the size of array if whole array is full
-        if (N == q.length) resize(q.length * 2);
+        if (last == q.length) resize(q.length * 2);
         q[last++] = item;
-        // after enqueue, if only the last position in the array is full,
-        // take it to the first position to enable the empty space 
-        // in the array is waiting for enqueue into the next one
-        if (last == q.length) last = 0;
         N++;
+    }
+    
+    private int getLabel() {
+        // note that the index of the array is from 0~last - 1
+        int label = StdRandom.uniform(last);
+        while (q[label] == null) label = StdRandom.uniform(last);
+        return label;
     }
     
     public Item dequeue() {
         if (isEmpty()) throw new NoSuchElementException("nothing to dequeue");
-        int label = StdRandom.uniform(first, last + 1);
+        int label = getLabel();
         Item item = q[label];
         q[label] = null;
         N--;
-        if (N > 0 && N == q.length/4) resize(q.length/2);
+        if (last > 0 && last == q.length/4) resize(q.length/2);
         return item;
     }
     
     public Item sample() {
         if (isEmpty()) throw new NoSuchElementException("nothing to sample");
-        int label = StdRandom.uniform(first, last + 1);
+        int label = getLabel();
         Item item = q[label];
         return item;
     }
@@ -76,8 +77,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] shuffle() {
         Item[] a;
         a = (Item[]) new Object[N];
-        for (int j = 0; j < N; j++) {
-            a[j] = q[(first + j) % q.length];
+        int n = 0;
+        for (int j = 0; j < q.length; j++) {
+            if (q[j] != null) a[n++] = q[j];
         }
         // rearrange array
         StdRandom.shuffle(a);
@@ -89,7 +91,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         public boolean hasNext() { return i < N; }
         public Item next() {
             if (!hasNext()) throw new NoSuchElementException();
-            Item item = q[(first + i) % q.length];
+            Item item = q[i];
             i++;
             return item;
         }
@@ -97,13 +99,23 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     
     public static void main(String[] args) {
-        RandomizedQueue<String> q = new RandomizedQueue<String>();
-        while (!StdIn.isEmpty()) {
-            String s = StdIn.readString();
-            if (!s.equals("-")) q.enqueue(s);
-            else if (!q.isEmpty()) StdOut.print(q.dequeue() + " ");
-        }
-        StdOut.print(q.size() + "items remains");
+         RandomizedQueue<String> q = new RandomizedQueue<String>();
+        q.enqueue("s");
+        q.enqueue("t");
+        q.enqueue("r");
+        q.enqueue("e");
+        q.enqueue("a");
+        q.enqueue("m");
+        StdOut.print("before dequeue: ");
+        for (String s : q)
+            StdOut.print(s + " ");
+        StdOut.println(" ");
+        StdOut.println(q.dequeue());
+        StdOut.println(q.dequeue());
+        StdOut.println(q.dequeue());
+        StdOut.print("after dequeue: ");
+        for (String s : q)
+            StdOut.print(s + " ");
     }
 }
     
