@@ -8,9 +8,9 @@ public class Deque<Item> implements Iterable<Item> {
     private Node first, last;
     
     private class Node {
-        Item item;
-        Node next;
-        Node pre;
+        private Item item;
+        private Node next;
+        private Node pre;
     }
     
     public Deque() {
@@ -54,8 +54,14 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeFirst() {
         if (isEmpty()) throw new NoSuchElementException("nothing to remove");
         Item item = first.item;
-        if (first == last) { first = null; last = null; }
-        else { first = first.next; first.pre = null; }
+        if (first == last) { 
+            first = null; 
+            last = null; 
+        }
+        else { 
+            first = first.next; 
+            first.pre = null; 
+        }
         N--;
         return item;
     }
@@ -63,8 +69,14 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeLast() {
         if (isEmpty()) throw new NoSuchElementException("nothing to remove");
         Item item = last.item;
-        if (last == first) { last = null; first = null; }
-        else { last = last.pre; last.next = null; }
+        if (last == first) { 
+            last = null; 
+            first = null; 
+        }
+        else { 
+            last = last.pre; 
+            last.next = null; 
+        }
         N--;
         return item;
     }
@@ -76,7 +88,7 @@ public class Deque<Item> implements Iterable<Item> {
     private class DequeIterator implements Iterator<Item> {
         private Node current = first;
         
-        public boolean hasNext() { return current != null;}
+        public boolean hasNext() { return current != null; }
         
         public Item next() {
             if (!hasNext()) throw new NoSuchElementException("no next element");
@@ -85,7 +97,7 @@ public class Deque<Item> implements Iterable<Item> {
             return item;
         }
         
-        public void remove() { new UnsupportedOperationException("unsupported operation");}
+        public void remove() { throw new UnsupportedOperationException("unsupported operation"); }
     }
     
     public static void main(String[] args) {
