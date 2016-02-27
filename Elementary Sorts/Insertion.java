@@ -11,10 +11,11 @@ public class Insertion {
         for (int i = 0; i < N; i++) {
             // only sort first i elements in the array
             // do not see elements after that
-            for (int j = i; j > 0; j--) {
-                if (less(a[j], a[j-1]))
-                    exch(a, j, j-1);
-                else break;
+            // is a stable sort: equal elements never past each other
+            for (int j = i; j > 0 && less(a[j], a[j-1]); j--) {
+                //if (less(a[j], a[j-1]))
+                exch(a, j, j-1);
+                //else break;
             }
         }
     }

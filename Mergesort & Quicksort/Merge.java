@@ -1,5 +1,5 @@
 public class Merge {
-    
+    // mergesort is stable because it take element from left first when two items are equal when merging
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
         assert isSorted(a, lo, mid);
         assert isSorted(a, mid+1, hi);
@@ -27,7 +27,7 @@ public class Merge {
         sort (a, aux, mid+1, hi);
         merge(a, aux, lo, mid, hi);
     }
-    
+      
     /**
      * actual sort method
      */

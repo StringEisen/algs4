@@ -10,6 +10,8 @@ public class Selection {
         int N = a.length;
         for (int i = 0; i < N; i++) {
             int min = i;
+            // selection sort is not stable
+            // may have long-distance exchange that let one item past some equal item 
             for (int j = i + 1; j < N; j++)
                 // exchange the minimum value in the subarray from position i + 1
                 // to the end of the array
