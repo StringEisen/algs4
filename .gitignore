@@ -9,3 +9,6 @@
 *.html
 /algs4/*
 /reference assignment/*
+*.js
+*.css
+*.gif
