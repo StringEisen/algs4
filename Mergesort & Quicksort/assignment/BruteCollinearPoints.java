@@ -31,9 +31,7 @@ public class BruteCollinearPoints {
         segmentList = new ArrayList<LineSegment>();
         // the points array should be first sorted into ascending order (natrual order) to find endpoints
         Arrays.sort(points);
-        //Comparator<Point> order = points[0].slopeOrder();
-        //for (Point p : points)
-            //StdOut.println(p);
+        
         // should find all combinations of 4 points
         for (int i = 0; i < l; i++) {
             for (int j = i + 1; j < l; j++) {
