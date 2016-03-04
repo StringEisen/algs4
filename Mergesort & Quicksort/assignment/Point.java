@@ -10,6 +10,8 @@
 
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdOut;
 
 public class Point implements Comparable<Point> {
 
@@ -63,7 +65,7 @@ public class Point implements Comparable<Point> {
         if (that.y == y) return 0.0;
         else if (that.x == x) return Double.POSITIVE_INFINITY;
         else if (that.x == x && that.y == y) return Double.NEGATIVE_INFINITY;
-        else return (double) (that.y - y) /(double) (that.x - x));
+        else return (double) (that.y - y) /(double) (that.x - x);
     }
 
     /**
@@ -82,8 +84,8 @@ public class Point implements Comparable<Point> {
         /* YOUR CODE HERE */
         if (x == that.x && y == that.y) return 0;
         else if (y < that.y) return -1;
-        else if (y == that.y && x < that.x) return return -1;
-        else return return 1;
+        else if (y == that.y && x < that.x) return -1;
+        else return 1;
     }
 
     /**
@@ -94,7 +96,9 @@ public class Point implements Comparable<Point> {
      */
     public Comparator<Point> slopeOrder() {
         /* YOUR CODE HERE */
-        Order order = new Order(x, y);
+        Order order = new Order();
+        order.x = x;
+        order.y = y;
         return order;
     }
     
@@ -102,16 +106,10 @@ public class Point implements Comparable<Point> {
         private int x;
         private int y;
      
-        public Order(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-        
         public int compare(Point p1, Point p2) {
             Point p = new Point(x, y);
             if (p.slopeTo(p1) < p.slopeTo(p2)) return -1;
             else if (p.slopeTo(p1) == p.slopeTo(p2)) return 0;
-            //else if (p.slopeTo(p1) == -p.slopeTo(p2)) return ;
             else return 1;
 
         }
@@ -133,5 +131,17 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        Point p1 = new Point(100, 100);
+        Point p2 = new Point(50, 50);
+        Point p3 = new Point(StdRandom.uniform(100), StdRandom.uniform(100));
+        StdOut.println(p1.compareTo(p2));
+        StdOut.println(p1.slopeTo(p3));
+        Comparator<Point> order = p1.slopeOrder();
+        StdOut.println(order.compare(p2, p3));
+        // draw function doesn't work well
+        StdOut.println(p1.toString());
+        StdOut.println(p2.toString());
+        StdOut.println(p3.toString());
+        //p1.drawTo(p3);
     }
 }
