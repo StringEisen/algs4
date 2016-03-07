@@ -29,6 +29,10 @@ public class Point implements Comparable<Point> {
         this.x = x;
         this.y = y;
     }
+    
+    private void check(Point p) {
+        if (p == null) throw new NullPointerException();
+    }
 
     /**
      * Draws this point to standard draw.
@@ -62,8 +66,9 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
-        if (that.y == y) return 0.0;
-        else if (that.x == x) return Double.POSITIVE_INFINITY;
+        check(that);
+        if (that.y == y && that.x != x) return +0.0;
+        else if (that.x == x && that.y != y) return Double.POSITIVE_INFINITY;
         else if (that.x == x && that.y == y) return Double.NEGATIVE_INFINITY;
         else return (double) (that.y - y) /(double) (that.x - x);
     }
@@ -82,6 +87,7 @@ public class Point implements Comparable<Point> {
      */
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
+        check(that);
         if (x == that.x && y == that.y) return 0;
         else if (y < that.y) return -1;
         else if (y == that.y && x < that.x) return -1;

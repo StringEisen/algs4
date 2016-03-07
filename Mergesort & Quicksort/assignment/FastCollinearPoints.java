@@ -13,14 +13,17 @@ public class FastCollinearPoints {
     private ArrayList<LineSegment> list;
     
     public FastCollinearPoints(Point[] points) {
+        list = new ArrayList<LineSegment>();
         for (int i = 0; i < points.length; i++) {
             Comparator<Point> order = points[i].slopeOrder();
             Arrays.sort(points, order);
             // check if any 3 or more adjacent points have equal slope
-            for (int j = i+1; j < points.length; j++) {
+            for (int j = 1; j < points.length; j++) {
                 double slope = points[i].slopeTo(points[j]);
-                if (points[i].slopeTo(points[j+1]) == slope && points[i].slopeTo(points[j+2]) == slope) {
-                    LineSegment line = new LineSegment(points[i], points[j+2]);
+                int n;
+                for (n = 0; j+n < points.length && points[i].slopeTo(points[j+n]) == slope; n++) ;
+                if (n >= 2) {
+                    LineSegment line = new LineSegment(points[i], points[j]);
                     list.add(line);
                 }
             }
@@ -35,7 +38,7 @@ public class FastCollinearPoints {
         LineSegment[] segments = new LineSegment[numberOfSegments()];
         for (int i = 0; i < segments.length; i++) 
             segments[i] = list.get(i);
-        return segments;
+        return segments; 
     }
     
         public static void main(String[] args) {
