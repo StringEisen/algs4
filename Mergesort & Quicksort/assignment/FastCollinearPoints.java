@@ -11,12 +11,11 @@ import edu.princeton.cs.algs4.In;
 
 public class FastCollinearPoints {
     private LineSegment[] segments;
+    ArrayList<LineSegment> list = new ArrayList<LineSegment>();
     
     public FastCollinearPoints(Point[] points) {
         check(points);
-        ArrayList<LineSegment> list = new ArrayList<LineSegment>();
-        //Comparator<Point> order = points[0].slopeOrder();
-        //Arrays.sort(points, order);
+        
         for (int i = 0; i < points.length; i++) {
             Comparator<Point> order = points[i].slopeOrder();
             Arrays.sort(points, order);
@@ -26,25 +25,47 @@ public class FastCollinearPoints {
                 int n = j;
                 while (j < points.length-1 && order.compare(points[j], points[j+1]) == 0) { j++; }
                 if (j-n >= 2) {
-                    // this line has error as endpoints are not ones at the begining and end
-                    LineSegment line = new LineSegment(points[0], points[j]);
+                    Arrays.sort(points, n ,j+1);
+                    //StdOut.println("lines " + n + " " + j);
+                    //for (int e = n; e <= j; e++) {
+                 
+                        //StdOut.println(points[e]);
+                    //}
+                    Point[] p = new Point[3];
+                    p[0] = points[0];
+                    p[1] = points[n];
+                    p[2] = points[j];
+                    Arrays.sort(p);
+                    int flag = 0;
+                    // check repeat
+                    for (int m = 0; m <list.size(); m++) {
+                        if (list.get(m).toString().equals(p[0] + " -> " + p[2])) { flag=1; break; }
+                    }
+                    
+                    if (flag == 0) {
+                    //StdOut.println("points");
+                    //for (int e = 0; e <= 2; e++) {
+                        
+                        //StdOut.println(p[e]);
+                    //}
+                    LineSegment line = new LineSegment(p[0], p[2]);
                     list.add(line);
+                    }
                 }
                 //StdOut.println("j = " + j);
                 j++;
             }
         }
-        segments = new LineSegment[list.size()];
-        for (int i = 0; i < segments.length; i++) 
-            segments[i] = list.get(i);
     }
-
     
     public int numberOfSegments() {
         return segments.length;
     }
     
     public LineSegment[] segments() {
+        segments = new LineSegment[list.size()];
+        for (int i = 0; i < segments.length; i++) 
+            segments[i] = list.get(i);
         return segments; 
     }
     
